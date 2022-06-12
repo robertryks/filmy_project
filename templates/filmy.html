@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wszystkie filmy</title>
+
+    <link rel="stylesheet" href="{% static 'moj.css' %}">
+</head>
+<body>
+    <a href="{% url 'nowy_film' %}">Dodaj nowy</a>
+    {% if filmy|length == 0 %}
+        <h1>Brak filmów</h1>
+    {% else %}
+        <h1>Ilość filmów w BD: {{ filmy | length }}</h1>
+        {% for film in filmy %}
+            <h3>{{ film }}</h3>
+            <p>{{ film.opis }}</p>
+            <a href="{% url 'edytuj_film' film.id %}">Edytuj</a>
+            <a href="{% url 'usun_film' film.id %}">Usuń</a>
+        {% endfor %}
+    {% endif %}
+
+
+</body>
+</html>
