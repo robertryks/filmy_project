@@ -1,4 +1,7 @@
 body {
-    background-color: black;
-    color: white;
+    padding: 2rem;
+}
+
+.font-bold {
+    font-weight: bold;
 }

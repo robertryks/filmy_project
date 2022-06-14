@@ -1,26 +1,53 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Wszystkie filmy</title>
+{% extends 'glowny.html' %}
 
-    <link rel="stylesheet" href="{% static 'moj.css' %}">
-</head>
-<body>
-    <a href="{% url 'nowy_film' %}">Dodaj nowy</a>
-    {% if filmy|length == 0 %}
-        <h1>Brak filmów</h1>
-    {% else %}
-        <h1>Ilość filmów w BD: {{ filmy | length }}</h1>
-        {% for film in filmy %}
-            <h3>{{ film }}</h3>
-            <p>{{ film.opis }}</p>
-            <a href="{% url 'edytuj_film' film.id %}">Edytuj</a>
-            <a href="{% url 'usun_film' film.id %}">Usuń</a>
-        {% endfor %}
-    {% endif %}
+{% block tytul %} Lista filmów {% endblock %}
+
+{% block strona %}
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-8 d-flex justify-content-start">
+                <h2>Witaj <span class="font-bold">{{ user.username }}</span></h2>
+            </div>
+
+            <div class="col-4 d-flex justify-content-end font-bold">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">Wyloguj <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+                {% else %}
+                    <a href="{% url 'login' %}">Zaloguj <i class="fa-solid fa-arrow-right-to-bracket"></i></a>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="row mt-2 mb-4">
+            <a href="{% url 'nowy_film' %}">Dodaj nowy <i class="fa-solid fa-circle-plus"></i></a>
+        </div>
+
+        <div class="row">
+            {% if filmy|length == 0 %}
+                <h1>Brak filmów</h1>
+            {% else %}
+                {% for film in filmy %}
+                    <div class="card" style="width: 36rem;">
+                        <div class="card-body">
+
+                            <image class="film-plakat"></image>
+                            <h5 class="card-title">{{ film }}</h5>
+                            <p class="card-text">{{ film.opis }}</p>
+
+                            <a href="{% url 'edytuj_film' film.id %} " class="card-link"><i
+                                    class="fa-solid fa-file-pen fa-2x"></i></a>
+                            <a href="{% url 'usun_film' film.id %}" class="card-link"><i
+                                    class="fa-solid fa-trash-can fa-2x"></i></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
 
 
-</body>
-</html>
